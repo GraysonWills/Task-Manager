@@ -11,3 +11,8 @@ class ShelfService:
     def write(self, key, data):
         with shelve.open(self._fileName) as shelf:
             shelf[key] = data
+
+    def checkForKey(self, key) -> bool:
+        with shelve.open(self._fileName) as shelf:
+            return key in shelf
+            
