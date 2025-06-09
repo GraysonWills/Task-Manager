@@ -4,11 +4,13 @@ def main():
     uiManager = UIManager()
     
     while(True):
-        print("Welcome To Our Task Manager App")
+        
+        print("Welcome To Our Task Manager App\n")
+        
         while(True):
             print("1. Login")
             print("2. Register")
-            print("3. Exit")
+            print("3. Exit\n")
 
             choice = input("Please Enter Your Choice: ")
             if choice == "1":
@@ -18,19 +20,20 @@ def main():
                 uiManager.register()
                 break
             elif choice == "3":
-                print("Farewell!")
+                print("Farewell!\n")
                 return
             else:
-                print("Invalid choice. Please try again.")
+                print("Invalid choice. Please try again.\n")
 
+        print("Welcome To Your Task Manager App\n")
+        
         while(True):
-            print("Welcome To Your Task Manager App")
 
             print("1. Add a task")
             print("2. View Tasks")
             print("3. Mark Task As Complete")
             print("4. Delete Task")
-            print("5. Logout")
+            print("5. Logout\n")
 
             choice = input("Please Enter Your Choice: ")
             if choice == "1":
@@ -45,7 +48,7 @@ def main():
                 uiManager.logout()
                 break
             else:
-                print("Invalid choice. Please try again.")
+                print("Invalid choice. Please try again.\n")
 
 if __name__ == "__main__":
     main()
