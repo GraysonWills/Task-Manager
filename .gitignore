@@ -1,1 +1,5 @@
 .venv
+__pycache__
+userInfo.bak
+userInfo.dat
+userInfo.dir

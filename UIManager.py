@@ -4,6 +4,8 @@ from StateManager import StateManager
 from ThreadService import ThreadFactory
 from User import User
 from CryptographyService import CryptographyService
+import UIPrompts as messages
+
 class UIManager(CryptographyService, ThreadFactory, ShelfService, StateManager):
 
     def __init__(self):
@@ -14,56 +16,57 @@ class UIManager(CryptographyService, ThreadFactory, ShelfService, StateManager):
 
     def register(self):
         while(True):
-            username= self.encode_base64(input("Welcome! Please Register With A UNIQUE Username: "))
+            username = self.encode_base64(input(messages.ENTER_USERNAME_REGISTER))
             if(self.checkForKey(username)):
-                print("Username already exists. Please try again.\n")
+                print(messages.USERNAME_EXISTS)
             else:
                 break
         
-        password = self.encode_base64(input("Please Enter A Password: "))
+        password = self.encode_base64(input(messages.ENTER_PASSWORD))
         self.currentUser = User(username, password)
         self.write(username, self.construct_shelf(password=password))
-        print("Registration Complete!\n")
+        print(messages.REGISTRATION_COMPLETE)
 
     def login(self):
         while(True):
-            username = self.encode_base64(input("Please Enter Your Username: "))
+            username = self.encode_base64(input(messages.ENTER_USERNAME_LOGIN))
             if(self.checkForKey(username)):
                 information = self.read(username)
                 self.tasks = information['tasks']
                 break
             else:
-                print("Username does not exist. Please try again.\n")
+                print(messages.USERNAME_NOT_EXIST)
 
         while(True):
-            password = self.encode_base64(input("Please Enter Your Password: "))
+            password = self.encode_base64(input(messages.ENTER_PASSWORD_LOGIN))
             if(password == information['password']):
-                print("Login Successful!\n")
+                print(messages.LOGIN_SUCCESSFUL)
                 self.currentUser = User(username, password)
                 break
             else:
-                print("Incorrect password. Please try again.\n")
+                print(messages.INCORRECT_PASSWORD)
             
 
     def add_task(self):
-        taskDescription = input("Please Enter A Description For Your Task: ")
+        taskDescription = input(messages.ENTER_TASK_DESCRIPTION)
         newTask = Task(taskDescription)
         self.add_task_to_dict(newTask)
         self.write(self.currentUser.username, self.construct_shelf())
         
     def display_table(self):
-        print("Task ID\t\tTask Description\t\tCompleted")
-        print("---------------------------------------------------")
+        print(messages.TASK_TABLE_HEADER)
+        print(messages.TASK_TABLE_SEPARATOR)
         [print(f"{task.id}\t\t{task.description}\t\t{task.completed}") for task in self.tasks.values()]
-        print("---------------------------------------------------\n")
+        print(messages.TASK_TABLE_SEPARATOR + "\n")
 
     def view_tasks(self):
         self.display_table()
 
     def mark_as_complete(self):
         if not self.tasks:
-            print("No tasks found. Please add a task first.\n")
+            print(messages.NO_TASKS_FOUND)
             return
+        
         self.display_table()
         id = self.take_id_input()
         self.tasks[id].completed = True
@@ -71,8 +74,9 @@ class UIManager(CryptographyService, ThreadFactory, ShelfService, StateManager):
 
     def delete_task(self):
         if not self.tasks:
-            print("No tasks found. Please add a task first.\n")
+            print(messages.NO_TASKS_FOUND)
             return
+        
         self.display_table()
         id = self.take_id_input()
         self.delete_task_from_dict(id)
@@ -81,17 +85,17 @@ class UIManager(CryptographyService, ThreadFactory, ShelfService, StateManager):
     def take_id_input(self) -> int:
         while(True):
             try:
-                task_id = int(input("Select any id from the list: "))
+                task_id = int(input(messages.SELECT_TASK_ID))
                 if(self.check_for_task(task_id)):
                     return task_id
                 else:
-                    print("Invalid input. Please pick an id in the list.\n")
+                    print(messages.INVALID_TASK_ID)
             except ValueError:
-                print("Invalid input. Your input must be a number\n")
+                print(messages.INVALID_NUMBER_INPUT)
         
 
     def logout(self):
         self.write(self.currentUser.username, self.construct_shelf())
-        print("Thank You For Using Our Service! Your Current State Has Been Saved!")
+        print(messages.LOGOUT_MESSAGE)
         self.tasks = {}
         self.shelfInformation = {}

@@ -1,18 +1,18 @@
 from UIManager import UIManager
+import UIPrompts as messages
 
 def main():
     uiManager = UIManager()
     
     while(True):
         
-        print("Welcome To Our Task Manager App\n")
+        print(messages.WELCOME_MAIN)
         
         while(True):
-            print("1. Login")
-            print("2. Register")
-            print("3. Exit\n")
+            
+            print(messages.MAIN_MENU_OPTIONS)
 
-            choice = input("Please Enter Your Choice: ")
+            choice = input(messages.ENTER_CHOICE)
             if choice == "1":
                 uiManager.login()
                 break
@@ -20,22 +20,18 @@ def main():
                 uiManager.register()
                 break
             elif choice == "3":
-                print("Farewell!\n")
+                print(messages.FAREWELL)
                 return
             else:
-                print("Invalid choice. Please try again.\n")
+                print(messages.INVALID_CHOICE)
 
-        print("Welcome To Your Task Manager App\n")
+        print(messages.WELCOME_TASK_MANAGER)
         
         while(True):
 
-            print("1. Add a task")
-            print("2. View Tasks")
-            print("3. Mark Task As Complete")
-            print("4. Delete Task")
-            print("5. Logout\n")
+            print(messages.TASK_MENU_OPTIONS)
 
-            choice = input("Please Enter Your Choice: ")
+            choice = input(messages.ENTER_CHOICE)
             if choice == "1":
                 uiManager.add_task()
             elif choice == "2":
@@ -48,7 +44,7 @@ def main():
                 uiManager.logout()
                 break
             else:
-                print("Invalid choice. Please try again.\n")
+                print(messages.INVALID_CHOICE)
 
 if __name__ == "__main__":
     main()
